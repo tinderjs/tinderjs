@@ -1,4 +1,4 @@
-# tinderjs
+# tinderjs-browserify
 
   Programmatic access to the Tinder API
   

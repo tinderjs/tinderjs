@@ -1,4 +1,4 @@
-var TINDER_HOST = "https://api.gotinder.com";
+var TINDER_HOST = 'https://api.gotinder.com/';
 var request = require('request');
 
 /**
@@ -24,13 +24,16 @@ function TinderClient() {
    */
   var getRequestOptions = function(path, data) {
     var options = {
-      url: TINDER_HOST + "/" + path,
+      url: TINDER_HOST + path,
       json: data
     };
     
     var headers = {
-        'User-Agent' : 'Tinder Android Version 2.2.3',
-        'os_version' : '16'
+        'User-Agent'      : 'Tinder/4.0.9 (iPhone; iOS 8.0.2; Scale/2.00)',
+        'os_version'      : '80000000002',
+        'platform'        : 'ios',
+        'app-version'     : '123',
+        'Accept-Language' : 'en;q=1'
     };
   
     if (xAuthToken) {
@@ -166,6 +169,13 @@ function TinderClient() {
           throw "Failed to authenticate: " + body.error
         }
       });
+  };
+
+  /**
+   * Set auth token if you have it saved, no need to do fb login every time
+   */
+  this.setAuthToken = function(token) {
+    xAuthToken = token;
   };
   
   /**

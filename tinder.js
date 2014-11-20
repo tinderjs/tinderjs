@@ -164,7 +164,8 @@ function TinderClient() {
           xAuthToken = body.token;
           _this.userId = body.user._id;
           _this.defaults = body;
-          makeTinderCallback(callback);
+          callback = makeTinderCallback(callback);
+          callback(err, res, body);
         } else if (body.error){
           throw "Failed to authenticate: " + body.error
         }

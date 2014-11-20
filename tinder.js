@@ -1,5 +1,5 @@
 var TINDER_HOST = "https://api.gotinder.com/";
-var request = require('browser-request');
+var request = require('request');
 
 /**
  * Constructs a new instance of the TinderClient class

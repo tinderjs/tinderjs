@@ -29,11 +29,11 @@ function TinderClient() {
     };
     
     var headers = {
-        'User-Agent'      : 'Tinder/4.0.9 (iPhone; iOS 8.0.2; Scale/2.00)',
-        'os_version'      : '80000000002',
-        'platform'        : 'ios',
-        'app-version'     : '123',
-        'Accept-Language' : 'en;q=1'
+        'User-Agent'      : 'Tinder Android Version 4.1.4',
+        'os_version'      : '21',
+        'platform'        : 'android',
+        'app-version'     : '809',
+        'Accept-Language' : 'en'
     };
   
     if (xAuthToken) {

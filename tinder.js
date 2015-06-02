@@ -215,7 +215,9 @@ function TinderClient() {
         last_activity_date: _this.lastActivity.toISOString() 
       },
       makeTinderCallback(function(err, data){
-        _this.lastActivity = new Date(data.last_activity_date);
+        if (data && data.last_activity_date) {
+          _this.lastActivity = new Date(data.last_activity_date);
+        }
         
         if (callback) {
           callback(err, data);

@@ -74,7 +74,7 @@ function TinderClient() {
    * @param {Function} callback the callback 
    */
   var makeTinderCallback = function(callback) {
-    return function(error, res, body) {   
+    return function(error, res, body) {
       var data = null;
       
       if (!error) {
@@ -90,6 +90,10 @@ function TinderClient() {
         else if (typeof body === "object") {
           data = body;
         }
+      }
+
+      if (data.status && data.status !== 200) {
+        error = data;
       }
       
       if (callback) {
@@ -157,7 +161,8 @@ function TinderClient() {
     tinderPost('auth',
       {
         facebook_token: fbToken,
-        facebook_id: fbId
+        // facebook_id: fbId // doesn't seem like we need the fbId now
+        locale: 'en'
       },
       function(error, res, body) {
         if (!error && body.token) {

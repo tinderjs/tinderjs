@@ -92,7 +92,7 @@ function TinderClient() {
         }
       }
 
-      if (data.status && data.status !== 200) {
+      if (data && data.status && data.status !== 200) {
         error = data;
       }
       

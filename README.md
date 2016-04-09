@@ -29,6 +29,9 @@ client.authorize(
   });
 });
 ```
+## Disclaimer
+
+The Tinder API is not officially documented, and as such, usage of tinderjs possibly violates the Tinder Terms of Service. Use this at your own risk.
 
 ## Supported APIs
 

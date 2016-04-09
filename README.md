@@ -133,7 +133,7 @@ client.authorize(
 * `distance` is the maximum distance in miles of incoming recommendations
 * `callback` is called when the request completes
 
-### .uploadPictureProfile(path,callback)
+### .uploadPicture(path, callback)
 
   Upload a new picture on your profile, *Caution* the picture must be a square and jpeg.
 

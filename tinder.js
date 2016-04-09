@@ -377,6 +377,17 @@ function TinderClient() {
   };
 
   /**
+   * Delete picture from user profile
+   * @param {pictureId} id of the picture
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.deletePicture = function(pictureId,callback) {
+    tinderDelete('media?',
+      {assets:[pictureId]},
+      makeTinderCallback(callback));
+  };
+
+  /**
    * Delete the account of the current user
    * @param {Function} callback the callback to invoke when the request completes
    */

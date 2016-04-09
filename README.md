@@ -140,6 +140,13 @@ client.authorize(
 * `path` the path of the picture you want upload
 * `callback` is called when the request completes
 
+### .uploadPicture(pictureId, callback)
+
+  Delete a picture from the user profile
+
+* `pictureId` is the id of the picture. This is obtained in the response of `getProfile`
+* `callback` is called when the request completes
+
 ### .getProfile(callback)
 
   Get *your* user information, plus your preferences

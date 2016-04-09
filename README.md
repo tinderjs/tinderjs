@@ -55,11 +55,18 @@ client.authorize(
 
 ### .userId
 
-  Once authorized, this property will be set the current profile's tinder user id. 
+  Once authorized, this property will be set the current account's Tinder user id. 
+
+### .getRecommendations(limit, callback)
+
+  Gets a list of nearby users.
+  
+* `limit` is how many results to limit the search to 
+* `callback` is called when the request completes 
 
 ### .sendMessage(match id, message, callback)
 
-  Sends a message to a user. 
+  Sends a message to a user.
   
 * `match id` is the match id
 * `message` is the message to send. 
@@ -67,7 +74,7 @@ client.authorize(
 
 ### .like(user id, callback)
   
-  Likes a user (swipes right).
+  Likes (swipes right) on a user.
   
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
 * `callback` is called when the request completes 
@@ -81,7 +88,7 @@ client.authorize(
 
 ### .pass(user id, callback)
 
-  Pass on a user (swipes left).
+  Passes (swipes left) on a user.
   
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
 * `callback` is called when the request completes 
@@ -93,22 +100,15 @@ client.authorize(
 * `match id` is the match id
 * `callback` is called when the request completes 
 
-### .getRecommendations(limit, callback)
-
-  Gets nearby users
-  
-* `limit` is how many results to limit the search to 
-* `callback` is called when the request completes 
-
 ### .getUpdates(callback)
 
-  Checks for updates. The response will show you new messages, new matches, new blocks, etc. 
+  Gets a list of new updates. This will be things like new messages, users who liked you, etc. 
   
 * `callback` is called when the request completes 
 
 ### .getHistory(callback)
 
-  Gets the complete history for the user (all matches, messages, blocks, etc.).
+  Gets the entire history for the current account (all matches, messages, blocks, etc.)
   
   NOTE: Old messages seem to not be returned after a certain threshold. Not yet sure what exactly that timeout is. The official client seems to get this update once when the app is installed then cache the results and only rely on the incremental updates
 
@@ -116,15 +116,21 @@ client.authorize(
 
 ### .updatePosition(longitude, latitude, callback)
 
-  Updates your profile's geographic position
+  Updates the geographical position for the current account
 
 * `longitude` is the longitude of the new position
 * `latitude` is the latitude of the new position
 * `callback` is called when the request completes 
 
+### .getAccount(callback)
+  
+  Gets the current account info
+
+* `callback` is called when the request completes 
+
 ### .updatePreferences(discovery, min age, max age, gender, distance, callback)
 
-  Updates your profile's user preferences
+  Updates the preferences for the current account
 
 * `discovery` is the true/false that tells tinder whether or not to show your card
 * `min age` is the minimum age of incoming recommendations
@@ -133,21 +139,15 @@ client.authorize(
 * `distance` is the maximum distance in miles of incoming recommendations
 * `callback` is called when the request completes
 
-### .getProfile(callback)
-  
-  Get *your* user information, plus your preferences
-
-* `callback` is called when the request completes 
-
 ### .deleteAccount(callback)
 
-  Delete *your* user account
+  Delete the current account
 
 * `callback` is called when the request completes 
 
 ### .getUser(user id, callback)
 
-  Get user information by id
+  Gets a user by id
 
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
 * `callback` is called when the request completes 

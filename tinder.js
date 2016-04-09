@@ -13,7 +13,7 @@ function TinderClient() {
   var _this = this;
   
   /**
-   * The current profile's user id
+   * The current account's user id
    */
   this.userId = null;
   
@@ -46,7 +46,7 @@ function TinderClient() {
   };
 
   /**
-   * Issues a GET request to the tinder API
+   * Issues a GET request to the Tinder API
    * @param {String} path the relative path
    * @param {Object} data an object containing extra values 
    * @param {Function} callback the callback to invoke when the request completes 
@@ -58,7 +58,7 @@ function TinderClient() {
   };
 
   /**
-   * Issues a POST request to the tinder API
+   * Issues a POST request to the Tinder API
    * @param {String} path the relative path
    * @param {Object} data an object containing extra values
    * @param {Function} callback the callback to invoke when the request completes
@@ -70,7 +70,7 @@ function TinderClient() {
   };
 
   /**
-   * Issues a DELETE request to the tinder API
+   * Issues a DELETE request to the Tinder API
    * @param {String} path the relative path
    * @param {Object} data an object containing extra values
    * @param {Function} callback the callback to invoke when the request completes
@@ -114,77 +114,6 @@ function TinderClient() {
     };
   };
 
-  /**
-   * Gets a list of profiles nearby
-   * @param {Number} limit the maximum number of profiles to fetch
-   * @param {Function} callback the callback to invoke when the request completes
-   */
-  this.getRecommendations = function(limit, callback) {
-    tinderGet('user/recs', 
-      {
-        limit: limit
-      },
-      makeTinderCallback(callback));
-  };
-  
-  /**
-   * Sends a message to a user
-   * @param {String} matchId the id of the match
-   * @param {String} message the message to send
-   * @param {Function} callback the callback to invoke when the request completes
-   */
-  this.sendMessage = function(matchId, message, callback) {
-    tinderPost('user/matches/' + matchId,
-      {
-        message: message
-      },
-      makeTinderCallback(callback));
-  };
-
-  /**
-   * Unmatch with a user.
-   * @param {String} matchID the id of the match
-   * @param {Function} callback the callback to invoke when the request completes
-   */
-  this.unmatch = function(matchId, callback) {
-    tinderDelete('user/matches/' + matchId,
-      null,
-      makeTinderCallback(callback));
-  };
-  
-  /**
-   * Swipes left for a user
-   * @param {String} userId the id of the user
-   * @param {Function} callback the callback to invoke when the request completes
-   */
-  this.pass = function(userId, callback) {
-    tinderGet('pass/' + userId,
-      null,
-      makeTinderCallback(callback));
-  };
-  
-  /**
-   * Swipes right for a user
-   * @param {String} userId the id of the user
-   * @param {Function} callback the callback to invoke when the request completes
-   */
-  this.like = function(userId, callback) {
-    tinderGet('like/' + userId,
-      null,
-      makeTinderCallback(callback));
-  };
-
-  /**
-   * Superlikes a user
-   * @param {String} userId the id of the user
-   * @param {Function} callback the callback to invoke when the request completes
-   */
-  this.superLike = function(userId, callback) {
-    tinderPost('like/' + userId + '/super',
-      null,
-      makeTinderCallback(callback));
-  };
-  
   /**
    * Authorize this tinder client
    * @param {String} fbToken the Facebook token. This will be obtained when authenticating the user
@@ -252,12 +181,83 @@ function TinderClient() {
    * Returns client information and globals
    * Globals are used for interacting with tinder api limits
    */
-  this.getDefaults = function() {
+  this.getDefaults = function() {
     return _this.defaults;
   }
+  
+  /**
+   * Gets a list of nearby users
+   * @param {Number} limit the maximum number of profiles to fetch
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.getRecommendations = function(limit, callback) {
+    tinderGet('user/recs', 
+      {
+        limit: limit
+      },
+      makeTinderCallback(callback));
+  };
+  
+  /**
+   * Sends a message to a user
+   * @param {String} matchId the id of the match
+   * @param {String} message the message to send
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.sendMessage = function(matchId, message, callback) {
+    tinderPost('user/matches/' + matchId,
+      {
+        message: message
+      },
+      makeTinderCallback(callback));
+  };
+  
+  /**
+   * Likes (swipes right) on a user
+   * @param {String} userId the id of the user
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.like = function(userId, callback) {
+    tinderGet('like/' + userId,
+      null,
+      makeTinderCallback(callback));
+  };
 
   /**
-   * Gets a list of new updates. This will be things like new messages, people who liked you, etc. 
+   * Superlikes a user
+   * @param {String} userId the id of the user
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.superLike = function(userId, callback) {
+    tinderPost('like/' + userId + '/super',
+      null,
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Passes (swipes left) on a user
+   * @param {String} userId the id of the user
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.pass = function(userId, callback) {
+    tinderGet('pass/' + userId,
+      null,
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Unmatch with a user
+   * @param {String} matchID the id of the match
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.unmatch = function(matchId, callback) {
+    tinderDelete('user/matches/' + matchId,
+      null,
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Gets a list of new updates. This will be things like new messages, users who liked you, etc. 
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.getUpdates = function(callback) {
@@ -277,7 +277,7 @@ function TinderClient() {
   };
   
   /**
-   * Gets the entire history for the user (all matches, messages, blocks, etc.)
+   * Gets the entire history for the current account (all matches, messages, blocks, etc.)
    * 
    * NOTE: Old messages seem to not be returned after a certain threshold. Not yet
    * sure what exactly that timeout is. The official client seems to get this update
@@ -294,7 +294,7 @@ function TinderClient() {
   };
   
   /**
-   * Updates the position for this user 
+   * Updates the geographical position for the current account 
    * @param {Number} lon the longitude
    * @param {Number} lat the latitutde
    * @param {Function} callback the callback to invoke when the request completes
@@ -309,7 +309,17 @@ function TinderClient() {
   };
 
   /**
-   * Updates the preferences for this user
+   * Gets the current account info
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.getAccount = function(callback) {
+    tinderGet('meta',
+      null,
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Updates the preferences for the current account
    * @param {Boolean} discovery whether or not to show user's card
    * @param {Number} ageMin the minimum age to show recommendations
    * @param {Number} ageMax the maximum age to show recommendations
@@ -329,18 +339,9 @@ function TinderClient() {
       makeTinderCallback(callback));
   };
   
-  /**
-   * Get authenticated user info
-   * @param {Function} callback the callback to invoke when the request completes
-   */
-  this.getProfile = function(callback) {
-    tinderGet('meta',
-      null,
-      makeTinderCallback(callback));
-  };
 
   /**
-   * Delete the account of the current user
+   * Delete the current account
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.deleteAccount = function(callback) {
@@ -350,7 +351,7 @@ function TinderClient() {
   };
   
   /**
-   * Get user by id
+   * Gets a user by id
    * @param {String} userId the id of the user
    * @param {Function} callback the callback to invoke when the request completes
    */
@@ -358,6 +359,16 @@ function TinderClient() {
     tinderGet('user/' + userId,
       null,
       makeTinderCallback(callback));
+  };
+
+  /**
+   * @deprecated
+   * Get authenticated user info
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.getProfile = function(callback) {
+    console.log('This function is deprecated. Use getAccount(callback) instead.');
+    return getAccount(callback);
   };
   
 }

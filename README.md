@@ -1,21 +1,21 @@
 # tinderjs
 
   Programmatic access to the Tinder API
-  
+
 #### Contribution ####
 
 tinderjs is a project that has a lot of potential if the power of the open-source community is harnessed. Come [join us on on Slack](http://tinderjs.com) and view the [priorities list](https://github.com/tinderjs/tinderjs/wiki/Development-Priorities) to see how you can contribute, it is well appreciated!
 
-  
+
 ## Installation
 
     $ npm install tinder
-    
-    
+
+
 ## Introduction
 
   tinderjs is a simple node.js wrapper around the Tinder API. Below is a simple example which gets a list of nearby profiles and prints them out:
-  
+
 ```js
 var tinder = require('tinder');
 var client = new tinder.TinderClient();
@@ -35,15 +35,15 @@ client.authorize(
 ### .authorize(fb token, fb id, callback)
 
   Authorizes the `TinderClient`. You must call this before any other method.
-  
-* `fb token` is a facebook user access token. You would acquire this by having your user log in using your application 
-* `fb id` is the id of the facebook user 
-* `callback` is called when the request completes 
+
+* `fb token` is a facebook user access token. You would acquire this by having your user log in using your application
+* `fb id` is the id of the facebook user
+* `callback` is called when the request completes
 
 ### .isAuthorized()
 
   Returns bool if TinderClient is authorized or not.
-  
+
 ### .getAuthToken()
 
   Returns xAuthToken from authenticated user. Will be good if you want to save/cache the info.
@@ -55,64 +55,64 @@ client.authorize(
 
 ### .userId
 
-  Once authorized, this property will be set the current profile's tinder user id. 
+  Once authorized, this property will be set the current profile's tinder user id.
 
 ### .sendMessage(match id, message, callback)
 
-  Sends a message to a user. 
-  
+  Sends a message to a user.
+
 * `match id` is the match id
-* `message` is the message to send. 
-* `callback` is called when the request completes 
+* `message` is the message to send.
+* `callback` is called when the request completes
 
 ### .like(user id, callback)
-  
+
   Likes a user (swipes right).
-  
+
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .superLike(user id, callback)
-  
+
   Superlikes a user.
-  
+
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .pass(user id, callback)
 
   Pass on a user (swipes left).
-  
+
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .unmatch(match id, callback)
 
   Unmatch with a user.
-  
+
 * `match id` is the match id
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .getRecommendations(limit, callback)
 
   Gets nearby users
-  
-* `limit` is how many results to limit the search to 
-* `callback` is called when the request completes 
+
+* `limit` is how many results to limit the search to
+* `callback` is called when the request completes
 
 ### .getUpdates(callback)
 
-  Checks for updates. The response will show you new messages, new matches, new blocks, etc. 
-  
-* `callback` is called when the request completes 
+  Checks for updates. The response will show you new messages, new matches, new blocks, etc.
+
+* `callback` is called when the request completes
 
 ### .getHistory(callback)
 
   Gets the complete history for the user (all matches, messages, blocks, etc.).
-  
+
   NOTE: Old messages seem to not be returned after a certain threshold. Not yet sure what exactly that timeout is. The official client seems to get this update once when the app is installed then cache the results and only rely on the incremental updates
 
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .updatePosition(longitude, latitude, callback)
 
@@ -120,7 +120,7 @@ client.authorize(
 
 * `longitude` is the longitude of the new position
 * `latitude` is the latitude of the new position
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .updatePreferences(discovery, min age, max age, gender, distance, callback)
 
@@ -133,29 +133,43 @@ client.authorize(
 * `distance` is the maximum distance in miles of incoming recommendations
 * `callback` is called when the request completes
 
+### .uploadPicture(path, callback)
+
+  Upload a new picture on your profile, *Caution* the picture must be a square and jpeg.
+
+* `path` the path of the picture you want upload
+* `callback` is called when the request completes
+
+### .uploadPicture(pictureId, callback)
+
+  Delete a picture from the user profile
+
+* `pictureId` is the id of the picture. This is obtained in the response of `getProfile`
+* `callback` is called when the request completes
+
 ### .getProfile(callback)
-  
+
   Get *your* user information, plus your preferences
 
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .deleteAccount(callback)
 
   Delete *your* user account
 
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .getUser(user id, callback)
 
   Get user information by id
 
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ## Examples
 
   The following example authorizes a client, gets some nearby profiles, likes all of them, and sends a message to any of the ones that match
-  
+
 ```js
 var tinder = require('tinderjs');
 var client = new tinder.TinderClient();
@@ -165,10 +179,10 @@ client.authorize(
   <fb user token>,
   <fb user id>,
   function() {
-    
+
     var defaults = client.getDefaults()
     var recs_size = defaults.globals.recs_size;
-    
+
     client.getRecommendations(recs_size, function(error, data){
       _.chain(data.results)
         .pluck('_id')
@@ -183,7 +197,7 @@ client.authorize(
   });
 });
 ```
-    
+
 ## License
 
   MIT

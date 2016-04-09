@@ -326,6 +326,18 @@ function TinderClient() {
       null,
       makeTinderCallback(callback));
   };
+
+  /**
+   * Get a share URL for a user
+   * 
+   * @param {String} userId the id of the user
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.getShareLink = function(userId, callback) {
+    tinderPost('user/' + userId + '/share',
+      null,
+      makeTinderCallback(callback));
+  };
   
 }
 

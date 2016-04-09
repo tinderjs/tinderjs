@@ -128,6 +128,13 @@ client.authorize(
 
 * `callback` is called when the request completes 
 
+### .getShareLink(user id, callback)
+
+  Get a share URL for a user
+
+* `user id` is the user's id. This is obtained e.g  via `getRecommendations`
+* `callback` is called when the request completes 
+
 ### .getUser(user id, callback)
 
   Get user information by id

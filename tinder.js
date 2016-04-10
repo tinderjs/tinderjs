@@ -398,7 +398,7 @@ function TinderClient() {
    */
   this.getProfile = function(callback) {
     console.log('This function is deprecated. Use getAccount(callback) instead.');
-    return getAccount(callback);
+    return this.getAccount(callback);
   };  
 }
 

@@ -2,6 +2,7 @@ var TINDER_HOST = "https://api.gotinder.com/"
 var TINDER_IMAGE_HOST = "https://imageupload.gotinder.com/"
 
 var request = require('request');
+require('request-debug')(request);
 /**
  * Constructs a new instance of the TinderClient class
  *
@@ -390,6 +391,31 @@ function TinderClient() {
       {
         bio: bio
       },
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Update your job
+   * @param {String} id is the facebook id of the job
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.updateJob = function(id, callback) {
+    tinderPut('profile/job',
+      {
+        "company": {
+          "id": id
+        }
+      },
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Delete your current job
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.deleteJob = function(callback) {
+    tinderDelete('profile/job',
+      null,
       makeTinderCallback(callback));
   };
 

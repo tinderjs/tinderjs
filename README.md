@@ -179,6 +179,19 @@ client.authorize(
 * `bio` is your bio  (500 characters max.)
 * `callback` is called when the request completes
 
+### .updateJob(id, callback)
+
+  Update *your* current job
+
+* `id` id is the Facebook id of the job
+* `callback` is called when the request completes
+
+### .deleteJob(callback)
+
+  Delete *your* current job
+
+* `callback` is called when the request completes
+
 ### .deleteAccount(callback)
 
   Delete *your* user account

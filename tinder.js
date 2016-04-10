@@ -70,6 +70,18 @@ function TinderClient() {
   };
 
   /**
+   * Issues a DELETE request to the tinder API
+   * @param {String} path the relative path
+   * @param {Object} data an object containing extra values
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  var tinderDelete = function(path, data, callback) {
+    var opts = getRequestOptions(path, data);
+    opts.method = 'DELETE';
+    request(opts, callback);
+  };
+
+  /**
    * Helper for transforming the request callback values
    * @param {Function} callback the callback 
    */
@@ -126,6 +138,17 @@ function TinderClient() {
       {
         message: message
       },
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Unmatch with a user.
+   * @param {String} matchID the id of the match
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.unmatch = function(matchId, callback) {
+    tinderDelete('user/matches/' + matchId,
+      null,
       makeTinderCallback(callback));
   };
   
@@ -291,7 +314,7 @@ function TinderClient() {
    * @param {Number} ageMin the minimum age to show recommendations
    * @param {Number} ageMax the maximum age to show recommendations
    * @param {Number} gender the gender to show recommentations (0 = Male, 1 = Female, -1 = Both)
-   * @param {Number} distance the distance in km to show recommendations
+   * @param {Number} distance the distance in miles to show recommendations
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.updatePreferences = function(discovery, ageMin, ageMax, gender, distance, callback) {
@@ -312,6 +335,16 @@ function TinderClient() {
    */
   this.getProfile = function(callback) {
     tinderGet('meta',
+      null,
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Delete the account of the current user
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.deleteAccount = function(callback) {
+    tinderDelete('profile',
       null,
       makeTinderCallback(callback));
   };
@@ -336,6 +369,24 @@ function TinderClient() {
   this.getShareLink = function(userId, callback) {
     tinderPost('user/' + userId + '/share',
       null,
+      makeTinderCallback(callback));
+  };
+  
+  /**
+   * Report a user
+   * 
+   * @param {String} userId the id of the user
+   * @param {Number} causeId one of 4 (inappropriate photos), 1 (spam), or 0 (other)
+   * @param {String} causeText optional reason for report when causeId is 0 (other)
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.report = function(userId, causeId, causeText, callback) {
+    var data = {
+      cause: causeId
+    }
+    if (causeId == 0 && causeText != null) data['text'] = causeText;
+    tinderPost('report/' + userId,
+      data,
       makeTinderCallback(callback));
   };
   

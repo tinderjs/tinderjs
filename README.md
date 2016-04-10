@@ -2,6 +2,10 @@
 
   Programmatic access to the Tinder API
   
+#### Contribution ####
+
+tinderjs is a project that has a lot of potential if the power of the open-source community is harnessed. Come [join us on on Slack](http://tinderjs.com) and view the [priorities list](https://github.com/tinderjs/tinderjs/wiki/Development-Priorities) to see how you can contribute, it is well appreciated!
+
   
 ## Installation
 
@@ -82,6 +86,13 @@ client.authorize(
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
 * `callback` is called when the request completes 
 
+### .unmatch(match id, callback)
+
+  Unmatch with a user.
+  
+* `match id` is the match id
+* `callback` is called when the request completes 
+
 ### .getRecommendations(limit, callback)
 
   Gets nearby users
@@ -119,7 +130,7 @@ client.authorize(
 * `min age` is the minimum age of incoming recommendations
 * `max age` is the maximum age of incoming recommendations
 * `gender` is the gender of incoming recommendations (0 = Male, 1 = Female, -1 = Both)
-* `distance` is the maximum distance in kilometers of incoming recommendations
+* `distance` is the maximum distance in miles of incoming recommendations
 * `callback` is called when the request completes
 
 ### .getProfile(callback)
@@ -128,9 +139,9 @@ client.authorize(
 
 * `callback` is called when the request completes 
 
-### .getShareLink(user id, callback)
+### .deleteAccount(callback)
 
-  Get a share URL for a user
+  Delete *your* user account
 
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
 * `callback` is called when the request completes 
@@ -140,6 +151,22 @@ client.authorize(
   Get user information by id
 
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
+* `callback` is called when the request completes 
+
+### .getShareLink(user id, callback)
+
+  Get a share URL for a user
+
+* `user id` is the user's id. This is obtained e.g  via `getRecommendations`
+* `callback` is called when the request completes 
+
+### .report(user id, cause id, cause text, callback)
+
+  Report a user
+
+* `user id` is the user's id. This is obtained e.g  via `getRecommendations`
+* `cause id` is one of 4 (inappropriate photos), 1 (spam), or 0 (other)
+* `cause text` is the optional reason for report when the causeId is 0 (other)
 * `callback` is called when the request completes 
 
 ## Examples

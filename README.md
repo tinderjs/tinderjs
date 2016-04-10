@@ -165,6 +165,13 @@ client.authorize(
 
 * `callback` is called when the request completes
 
+### .updateGender(gender, callback)
+
+  Update *your* gender
+
+* `gender` is your gender  (0 = Male, 1 = Female)
+* `callback` is called when the request completes
+
 ### .deleteAccount(callback)
 
   Delete *your* user account

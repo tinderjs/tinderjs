@@ -367,6 +367,18 @@ function TinderClient() {
       makeTinderCallback(callback));
   };
 
+  /**
+   * Update your gender
+   * @param {Number} gender is your gender (0 = Male, 1 = Female)
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.updateGender = function(gender, callback) {
+    tinderPost('profile',
+      {
+        gender: gender
+      },
+      makeTinderCallback(callback));
+  };
 
   /**
    * Post new user picture

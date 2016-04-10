@@ -381,6 +381,19 @@ function TinderClient() {
   };
 
   /**
+   * Update your bio
+   * @param {String} bio is you bio (500 characters max.)
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.updateBio = function(bio, callback) {
+    tinderPost('profile',
+      {
+        bio: bio
+      },
+      makeTinderCallback(callback));
+  };
+
+  /**
    * Post new user picture
    * @param {Buffer} file is the picture that you want to upload
    * @param {Function} callback the callback to invoke when the request completes

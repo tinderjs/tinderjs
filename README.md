@@ -172,6 +172,13 @@ client.authorize(
 * `gender` is your gender  (0 = Male, 1 = Female)
 * `callback` is called when the request completes
 
+### .updateBio(bio, callback)
+
+  Update *your* bio
+
+* `bio` is your bio  (500 characters max.)
+* `callback` is called when the request completes
+
 ### .deleteAccount(callback)
 
   Delete *your* user account

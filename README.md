@@ -140,11 +140,11 @@ client.authorize(
 * `file` is the picture that you want to upload. e.g .uploadPicture(fs.createReadStream('./picture.jpeg'),callback)
 * `callback` is called when the request completes
 
-### .uploadFBPicture(id, xdistance_percent, ydistance_percent, xoffset_percent, yoffset_percent, callback)
+### .uploadFBPicture(pictureId, xdistance_percent, ydistance_percent, xoffset_percent, yoffset_percent, callback)
 
   Upload a Facebook picture to your profile from it's id.
 
-* `id` is the Facebook id of the picture
+* `pictureId` is the Facebook id of the picture
 * `xdistance_percent` is the zoom percentage in x 0 full Zoom 1 no Zoom
 * `ydistance_percent` is the zoom percentage in x 0 full Zoom 1 no Zoom
 * `xoffset_percent` is the offset from the left corner in percentage
@@ -152,11 +152,11 @@ client.authorize(
 * `callback` is called when the request completes
 
 
-### .deletePictures(pictureIds, callback)
+### .deletePicture(pictureId, callback)
 
-  Delete pictures from the user profile
+  Delete picture from the user profile
 
-* `pictureIds` is array of ids pictures that you want to delete. This is obtained in the response of `getProfile`
+* `pictureId` is the id of the picture in string. This is obtained in the response of `getProfile`
 * `callback` is called when the request completes
 
 ### .getProfile(callback)

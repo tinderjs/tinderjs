@@ -2,7 +2,6 @@ var TINDER_HOST = "https://api.gotinder.com/"
 var TINDER_IMAGE_HOST = "https://imageupload.gotinder.com/"
 
 var request = require('request');
-require('request-debug')(request);
 /**
  * Constructs a new instance of the TinderClient class
  *
@@ -23,9 +22,8 @@ function TinderClient() {
    * Helper for getting the request object
    * @param path {String} path the relative URI path
    * @param data {Object} an object of extra values
-   * @param file {String} let change the host when the file string is not empty
    */
-  var getRequestOptions = function(path, data, upload) {
+  var getRequestOptions = function(path, data) {
     var options = {
       url: TINDER_HOST + path,
       json: data
@@ -75,7 +73,7 @@ function TinderClient() {
   /**
    * Issues a POST MULTIPART request to the tinder API
    * @param {String} path the relative path
-   * @param {Object} data an object containing extra values
+   * @param {Object} an object containing the values to post
    * @param {Function} callback the callback to invoke when the request completes
    */
   var tinderMultipartPost = function(path, data, callback) {
@@ -376,17 +374,17 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.uploadPicture = function(file, callback) {
-    tinderMultipartPost('image?client_photo_id=ProfilePhoto' + new Date().getTime() ,
+    tinderMultipartPost('image?client_photo_id=ProfilePhoto' + new Date().getTime(),
       {
-        userId : _this.userId,
-        file : file
+        userId: _this.userId,
+        file: file
       },
       makeTinderCallback(callback));
   };
 
   /**
-   * Post new user picture
-   * @param {String} id is the facebook id of the picture
+   * Post a new user picture from an existing Facebook picture
+   * @param {String} pictureId is the facebook id of the picture
    * @param {Float} xdistance_percent is the zoom percentage in x 0 full Zoom 1 no Zoom
    * @param {Float} ydistance_percent is the zoom percentage in x 0 full Zoom 1 no Zoom
    * @param {Float} xoffset_percent is the offset from the left corner in percentage
@@ -394,7 +392,7 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
 
-  this.uploadFBPicture = function(id, xdistance_percent, ydistance_percent, xoffset_percent, yoffset_percent, callback) {
+  this.uploadFBPicture = function(pictureId, xdistance_percent, ydistance_percent, xoffset_percent, yoffset_percent, callback) {
     tinderPost('media',
       {
         "transmit": "fb",
@@ -411,13 +409,13 @@ function TinderClient() {
 
   /**
    * Delete picture from user profile
-   * @param {String || String Array} pictureIds the id(s) of the picture(s)
+   * @param {String} pictureId the id of the picture
    * @param {Function} callback the callback to invoke when the request completes
    */
-  this.deletePictures = function(pictureIds, callback) {
+  this.deletePictures = function(pictureId, callback) {
     tinderDelete('media',
       {
-        assets : pictureIds
+        assets: [pictureId]
       },
       makeTinderCallback(callback));
   };

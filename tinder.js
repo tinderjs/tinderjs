@@ -362,6 +362,36 @@ function TinderClient() {
   };
 
   /**
+   * Get a share URL for a user
+   * 
+   * @param {String} userId the id of the user
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.getShareLink = function(userId, callback) {
+    tinderPost('user/' + userId + '/share',
+      null,
+      makeTinderCallback(callback));
+  };
+  
+  /**
+   * Report a user
+   * 
+   * @param {String} userId the id of the user
+   * @param {Number} causeId one of 4 (inappropriate photos), 1 (spam), or 0 (other)
+   * @param {String} causeText optional reason for report when causeId is 0 (other)
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.report = function(userId, causeId, causeText, callback) {
+    var data = {
+      cause: causeId
+    }
+    if (causeId == 0 && causeText != null) data['text'] = causeText;
+    tinderPost('report/' + userId,
+      data,
+      makeTinderCallback(callback));
+  };
+  
+  /**
    * @deprecated
    * Get authenticated user info
    * @param {Function} callback the callback to invoke when the request completes
@@ -369,8 +399,7 @@ function TinderClient() {
   this.getProfile = function(callback) {
     console.log('This function is deprecated. Use getAccount(callback) instead.');
     return getAccount(callback);
-  };
-  
+  };  
 }
 
 exports.TinderClient = TinderClient;

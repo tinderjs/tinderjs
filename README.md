@@ -152,6 +152,22 @@ client.authorize(
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
 * `callback` is called when the request completes 
 
+### .getShareLink(user id, callback)
+
+  Get a share URL for a user
+
+* `user id` is the user's id. This is obtained e.g  via `getRecommendations`
+* `callback` is called when the request completes 
+
+### .report(user id, cause id, cause text, callback)
+
+  Report a user
+
+* `user id` is the user's id. This is obtained e.g  via `getRecommendations`
+* `cause id` is one of 4 (inappropriate photos), 1 (spam), or 0 (other)
+* `cause text` is the optional reason for report when the causeId is 0 (other)
+* `callback` is called when the request completes 
+
 ## Examples
 
   The following example authorizes a client, gets some nearby profiles, likes all of them, and sends a message to any of the ones that match

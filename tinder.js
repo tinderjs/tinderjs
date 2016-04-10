@@ -441,6 +441,7 @@ function TinderClient() {
       null,
       makeTinderCallback(callback));
   };
+  
   /**
    * @deprecated
    * Get authenticated user info

@@ -29,10 +29,10 @@ function TinderClient() {
     };
     
     var headers = {
-        'User-Agent'      : 'Tinder Android Version 4.1.4',
-        'os_version'      : '21',
+        'User-Agent'      : 'Tinder Android Version 4.5.5',
+        'os_version'      : '23',
         'platform'        : 'android',
-        'app-version'     : '809',
+        'app-version'     : '854',
         'Accept-Language' : 'en'
     };
   

@@ -29,10 +29,10 @@ function TinderClient() {
     };
     
     var headers = {
-        'User-Agent'      : 'Tinder Android Version 4.1.4',
-        'os_version'      : '21',
+        'User-Agent'      : 'Tinder Android Version 4.5.5',
+        'os_version'      : '23',
         'platform'        : 'android',
-        'app-version'     : '809',
+        'app-version'     : '854',
         'Accept-Language' : 'en'
     };
   
@@ -66,6 +66,18 @@ function TinderClient() {
   var tinderPost = function(path, data, callback) {
     var opts = getRequestOptions(path, data);
     opts.method = 'POST';
+    request(opts, callback);
+  };
+
+  /**
+   * Issues a PUT request to the Tinder API
+   * @param {String} path the relative path
+   * @param {Object} data an object containing extra values
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  var tinderPut = function(path, data, callback) {
+    var opts = getRequestOptions(path, data);
+    opts.method = 'PUT';
     request(opts, callback);
   };
 
@@ -391,6 +403,44 @@ function TinderClient() {
       makeTinderCallback(callback));
   };
   
+  /**
+   * Create a web username for the current account
+   * 
+   * @param {String} userName the username to request be created
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.createUsername = function(username, callback) {
+    tinderPost('profile/username',
+      {
+        username: username
+      },
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Change a web username for the current account if it's already been set
+   * 
+   * @param {String} userName the username to request be created
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.changeUsername = function(username, callback) {
+    tinderPut('profile/username',
+      {
+        username: username
+      },
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Deletes the existing web username for the current account
+   * 
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.deleteUsername = function(callback) {
+    tinderDelete('profile/username',
+      null,
+      makeTinderCallback(callback));
+  };
   /**
    * @deprecated
    * Get authenticated user info

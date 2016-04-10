@@ -168,6 +168,26 @@ client.authorize(
 * `cause text` is the optional reason for report when the causeId is 0 (other)
 * `callback` is called when the request completes 
 
+### .createUsername(username, callback)
+
+  Create a web username for the current account
+
+* `username` is the username to request
+* `callback` is called when the request completes 
+
+### .changeUsername(username, callback)
+
+  Change a web username for the current account if it's already been set
+
+* `username` is the username to request
+* `callback` is called when the request completes 
+
+### .deleteUsername(username, callback)
+
+  Deletes the existing web username for the current account
+
+* `callback` is called when the request completes 
+
 ## Examples
 
   The following example authorizes a client, gets some nearby profiles, likes all of them, and sends a message to any of the ones that match

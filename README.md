@@ -192,6 +192,19 @@ client.authorize(
 
 * `callback` is called when the request completes
 
+### .updateSchool(id, callback)
+
+  Update *your* current school
+
+* `id` id is the Facebook id of the school
+* `callback` is called when the request completes
+
+### .deleteSchool(callback)
+
+  Delete *your* current school
+
+* `callback` is called when the request completes
+
 ### .deleteAccount(callback)
 
   Delete *your* user account

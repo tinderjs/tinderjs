@@ -420,6 +420,31 @@ function TinderClient() {
   };
 
   /**
+   * Update your school
+   * @param {String} id is the facebook id of the school
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.updateSchool = function(id, callback) {
+    tinderPut('profile/school',
+      {
+        "schools": [{
+          "id": id
+        }]
+      },
+      makeTinderCallback(callback));
+  };
+
+  /**
+   * Delete your current school
+   * @param {Function} callback the callback to invoke when the request completes
+   */
+  this.deleteSchool = function(callback) {
+    tinderDelete('profile/school',
+      null,
+      makeTinderCallback(callback));
+  };
+
+  /**
    * Post new user picture
    * @param {Buffer} file is the picture that you want to upload
    * @param {Function} callback the callback to invoke when the request completes

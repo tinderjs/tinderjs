@@ -55,14 +55,14 @@ client.authorize(
 
 ### .userId
 
-  Once authorized, this property will be set the current account's Tinder user id. 
+  Once authorized, this property will be set the current account's Tinder user id.
 
 ### .getRecommendations(limit, callback)
 
   Gets a list of nearby users.
-  
-* `limit` is how many results to limit the search to 
-* `callback` is called when the request completes 
+
+* `limit` is how many results to limit the search to
+* `callback` is called when the request completes
 
 ### .sendMessage(match id, message, callback)
 
@@ -73,9 +73,9 @@ client.authorize(
 * `callback` is called when the request completes
 
 ### .like(user id, callback)
-  
+
   Likes (swipes right) on a user.
-  
+
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
 * `callback` is called when the request completes
 
@@ -89,7 +89,7 @@ client.authorize(
 ### .pass(user id, callback)
 
   Passes (swipes left) on a user.
-  
+
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
 * `callback` is called when the request completes
 
@@ -102,16 +102,16 @@ client.authorize(
 
 ### .getUpdates(callback)
 
-  Gets a list of new updates. This will be things like new messages, users who liked you, etc. 
-  
-* `callback` is called when the request completes 
+  Gets a list of new updates. This will be things like new messages, users who liked you, etc.
+
+* `callback` is called when the request completes
 
 * `callback` is called when the request completes
 
 ### .getHistory(callback)
 
   Gets the entire history for the current account (all matches, messages, blocks, etc.)
-  
+
   NOTE: Old messages seem to not be returned after a certain threshold. Not yet sure what exactly that timeout is. The official client seems to get this update once when the app is installed then cache the results and only rely on the incremental updates
 
 * `callback` is called when the request completes
@@ -125,10 +125,10 @@ client.authorize(
 * `callback` is called when the request completes
 
 ### .getAccount(callback)
-  
+
   Gets the current account info
 
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .updatePreferences(discovery, min age, max age, gender, distance, callback)
 
@@ -174,14 +174,14 @@ client.authorize(
 
   Delete the current account
 
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .getUser(user id, callback)
 
   Gets a user by id
 
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .getShareLink(user id, callback)
 
@@ -197,27 +197,37 @@ client.authorize(
 * `user id` is the user's id. This is obtained e.g  via `getRecommendations`
 * `cause id` is one of 4 (inappropriate photos), 1 (spam), or 0 (other)
 * `cause text` is the optional reason for report when the causeId is 0 (other)
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .createUsername(username, callback)
 
   Create a web username for the current account
 
 * `username` is the username to request
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .changeUsername(username, callback)
 
   Change a web username for the current account if it's already been set
 
 * `username` is the username to request
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
 
 ### .deleteUsername(username, callback)
 
   Deletes the existing web username for the current account
 
-* `callback` is called when the request completes 
+* `callback` is called when the request completes
+
+## Tinder plus
+
+### .passportLocation(lat, lon, callback)
+
+  Update passport location
+
+* `lat`
+* `lon`
+* 
 
 ## Examples
 
@@ -250,7 +260,7 @@ client.authorize(
   });
 });
 ```
-    
+
 ### Disclaimer ###
 
 This is not an official Tinder app and as such its usage may violate Tinder's TOS. As with any experimental technology you should use it with caution.

@@ -10,7 +10,7 @@
   "author": "tinderjs",
   "license": "MIT",
   "dependencies": {
-    "frisbee": "^0.2.0",
-    "request": "2.70.0"
+    "form-data": "^1.0.0-rc4",
+    "frisbee": "^0.2.0"
   }
 }

@@ -460,7 +460,7 @@ function TinderClient() {
     form.append('file', file);
 
     api.post(TINDER_IMAGE_HOST + 'image?client_photo_id=ProfilePhoto' +
-                 new Date().getTime(), {body: form})
+                 new Date().getTime(), {body: form}, callback)
   };
 
   /**

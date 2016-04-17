@@ -24,9 +24,7 @@ function TinderClient() {
   this.userId = null;
 
   /**
-   * Helper for getting the request object
-   * @param path {String} path the relative URI path
-   * @param data {Object} an object of extra values
+   * Helper for getting the request headers
    */
   var getApi = function() {
     var headers = {
@@ -111,21 +109,21 @@ function TinderClient() {
    * @param {Function} callback the callback
    */
   var makeTinderCallback = function(callback) {
-    return function(error, res, body) {
+    return function(error, res) {
       var data = null;
 
       if (!error) {
-        if (typeof body === "string")
+        if (typeof res.body === "string")
         {
           try
           {
-            data = JSON.parse(body);
+            data = JSON.parse(res.body);
           } catch (err) {
-            // todo
+            error = data;
           }
         }
-        else if (typeof body === "object") {
-          data = body;
+        else if (typeof res.body === "object") {
+          data = res.body;
         }
       }
 
@@ -149,28 +147,28 @@ function TinderClient() {
     tinderPost('auth',
       {
         facebook_token: fbToken,
-        // facebook_id: fbId, // doesn't seem like we need the fbId now
+        facebook_id: fbId,
         locale: 'en'
       },
-      function(error, res, body) {
+      function(error, res) {
         // If no body is passed back, return an error
-        if(body === undefined){
+        if(res.body === undefined){
           error = new Error('No token passed back from Tinder')
         }
 
-        var body = body || { 'token': null };
+        var body = res.body || { 'token': null };
         if (!error && body.token) {
           xAuthToken = body.token;
           _this.userId = body.user._id;
           _this.defaults = body;
 
           callback = makeTinderCallback(callback);
-          callback(error, res, body);
+          callback(error, res);
         } else if (body.error){
           error = "Failed to authenticate: " + body.error
-          callback(error, res, body);
+          callback(error, res);
         } else {
-          callback(error, res, body);
+          callback(error, res);
         }
       });
   };
@@ -209,20 +207,20 @@ function TinderClient() {
   this.getDefaults = function() {
     return _this.defaults;
   }
-  
+
   /**
    * Gets a list of nearby users
    * @param {Number} limit the maximum number of profiles to fetch
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.getRecommendations = function(limit, callback) {
-    tinderGet('user/recs', 
+    tinderGet('user/recs',
       {
         limit: limit
       },
       makeTinderCallback(callback));
   };
-  
+
   /**
    * Sends a message to a user
    * @param {String} matchId the id of the match
@@ -236,7 +234,7 @@ function TinderClient() {
       },
       makeTinderCallback(callback));
   };
-  
+
   /**
    * Likes (swipes right) on a user
    * @param {String} userId the id of the user
@@ -282,7 +280,7 @@ function TinderClient() {
   };
 
   /**
-   * Gets a list of new updates. This will be things like new messages, users who liked you, etc. 
+   * Gets a list of new updates. This will be things like new messages, users who liked you, etc.
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.getUpdates = function(callback) {
@@ -303,7 +301,7 @@ function TinderClient() {
 
   /**
    * Gets the entire history for the current account (all matches, messages, blocks, etc.)
-   * 
+   *
    * NOTE: Old messages seem to not be returned after a certain threshold. Not yet
    * sure what exactly that timeout is. The official client seems to get this update
    * once when the app is installed then cache the results and only rely on the
@@ -319,7 +317,7 @@ function TinderClient() {
   };
 
   /**
-   * Updates the geographical position for the current account 
+   * Updates the geographical position for the current account
    * @param {Number} lon the longitude
    * @param {Number} lat the latitutde
    * @param {Function} callback the callback to invoke when the request completes
@@ -378,7 +376,7 @@ function TinderClient() {
     tinderPut('profile/job',
       {
         "company": {
-          "id": id
+          id: id
         }
       },
       makeTinderCallback(callback));
@@ -402,8 +400,8 @@ function TinderClient() {
   this.updateSchool = function(id, callback) {
     tinderPut('profile/school',
       {
-        "schools": [{
-          "id": id
+        schools: [{
+          id: id
         }]
       },
       makeTinderCallback(callback));
@@ -418,7 +416,7 @@ function TinderClient() {
       null,
       makeTinderCallback(callback));
   };
-  
+
   /**
    * Updates the preferences for the current account
    * @param {Boolean} discovery whether or not to show user's card
@@ -449,7 +447,7 @@ function TinderClient() {
       null,
       makeTinderCallback(callback));
   };
-  
+
   /**
    * Gets a user by id
    * @param {String} userId the id of the user
@@ -467,12 +465,12 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.uploadPicture = function(file, callback) {
-    tinderMultipartPost('image?client_photo_id=ProfilePhoto' + new Date().getTime(),
-      {
-        userId: _this.userId,
-        file: file
-      },
-      makeTinderCallback(callback));
+    request.post(TINDER_IMAGE_HOST + 'image?client_photo_id=ProfilePhoto' +
+                 new Date().getTime())
+      .set(getRequestHeaders())
+      .field('userId', _this.userId)
+      .attach('file', file)
+      .end(makeTinderCallback(callback))
   };
 
   /**
@@ -487,13 +485,13 @@ function TinderClient() {
   this.uploadFBPicture = function(pictureId, xdistance_percent, ydistance_percent, xoffset_percent, yoffset_percent, callback) {
     tinderPost('media',
       {
-        "transmit": "fb",
-        "assets": [{
-          "ydistance_percent": ydistance_percent,
-          "id": id,
-          "xoffset_percent": xoffset_percent,
-          "yoffset_percent": yoffset_percent,
-          "xdistance_percent": xdistance_percent
+        transmit: "fb",
+        assets: [{
+          ydistance_percent: ydistance_percent,
+          id: id,
+          xoffset_percent: xoffset_percent,
+          yoffset_percent: yoffset_percent,
+          xdistance_percent: xdistance_percent
         }]
       },
       makeTinderCallback(callback));
@@ -514,7 +512,7 @@ function TinderClient() {
 
   /**
    * Get a share URL for a user
-   * 
+   *
    * @param {String} userId the id of the user
    * @param {Function} callback the callback to invoke when the request completes
    */
@@ -526,7 +524,7 @@ function TinderClient() {
 
   /**
    * Report a user
-   * 
+   *
    * @param {String} userId the id of the user
    * @param {Number} causeId one of 4 (inappropriate photos), 1 (spam), or 0 (other)
    * @param {String} causeText optional reason for report when causeId is 0 (other)
@@ -541,10 +539,10 @@ function TinderClient() {
       data,
       makeTinderCallback(callback));
   };
-  
+
   /**
    * Create a web username for the current account
-   * 
+   *
    * @param {String} userName the username to request be created
    * @param {Function} callback the callback to invoke when the request completes
    */
@@ -558,7 +556,7 @@ function TinderClient() {
 
   /**
    * Change a web username for the current account if it's already been set
-   * 
+   *
    * @param {String} userName the username to request be created
    * @param {Function} callback the callback to invoke when the request completes
    */
@@ -572,7 +570,7 @@ function TinderClient() {
 
   /**
    * Deletes the existing web username for the current account
-   * 
+   *
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.deleteUsername = function(callback) {
@@ -580,11 +578,11 @@ function TinderClient() {
       null,
       makeTinderCallback(callback));
   };
-  
+
   ///////////// TINDER PLUS /////////////////
-  
+
   /**
-   * Update the passport location 
+   * Update the passport location
    * @param {Number} lon the longitude
    * @param {Number} lat the latitutde
    * @param {Function} callback the callback to invoke when the request completes
@@ -597,9 +595,9 @@ function TinderClient() {
       },
       makeTinderCallback(callback));
   };
-  
+
   /**
-   * Reset the passport location 
+   * Reset the passport location
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.resetPassport = function(callback) {
@@ -607,7 +605,7 @@ function TinderClient() {
       null,
       makeTinderCallback(callback));
   };
-  
+
   /**
    * @deprecated
    * Get authenticated user info
@@ -616,7 +614,7 @@ function TinderClient() {
   this.getProfile = function(callback) {
     console.log('This function is deprecated. Use getAccount(callback) instead.');
     return this.getAccount(callback);
-  };  
+  };
 }
 
 exports.TinderClient = TinderClient;

@@ -1,7 +1,11 @@
 var TINDER_HOST = "https://api.gotinder.com/"
 var TINDER_IMAGE_HOST = "https://imageupload.gotinder.com/"
 
-var request = require('request');
+// window.fetch for browser or global.fetch for node
+if(this.fetch === undefined) {
+  require('isomorphic-fetch');
+}
+var Frisbee = require('frisbee').default;
 
 /**
  * Constructs a new instance of the TinderClient class
@@ -24,39 +28,37 @@ function TinderClient() {
    * @param path {String} path the relative URI path
    * @param data {Object} an object of extra values
    */
-  var getRequestOptions = function(path, data) {
-    var options = {
-      url: TINDER_HOST + path,
-      json: data
-    };
-
+  var getApi = function() {
     var headers = {
         'User-Agent'      : 'Tinder Android Version 4.5.5',
         'os_version'      : '23',
         'platform'        : 'android',
         'app-version'     : '854',
-        'Accept-Language' : 'en'
+        'Accept-Language' : 'en',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
     };
-
     if (xAuthToken) {
         headers['X-Auth-Token'] = xAuthToken;
     }
 
-    options.headers = headers;
+    var api = new Frisbee({
+      baseURI: TINDER_HOST,
+      headers: headers
+    })
 
-    return options;
+    return api;
   };
 
   /**
    * Issues a GET request to the Tinder API
    * @param {String} path the relative path
-   * @param {Object} data an object containing extra values 
-   * @param {Function} callback the callback to invoke when the request completes 
+   * @param {Object} data an object containing extra values
+   * @param {Function} callback the callback to invoke when the request completes
    */
   var tinderGet = function(path, data, callback) {
-    var opts = getRequestOptions(path, data);
-    opts.method = 'GET';
-    request(opts, callback);
+    var api = getApi();
+    api.get(path, {body: JSON.stringify(data)}, callback);
   };
 
   /**
@@ -66,9 +68,8 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
   var tinderPost = function(path, data, callback) {
-    var opts = getRequestOptions(path, data);
-    opts.method = 'POST';
-    request(opts, callback);
+    var api = getApi();
+    api.post(path, {body: JSON.stringify(data)}, callback);
   };
 
   /**
@@ -78,12 +79,9 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
   var tinderMultipartPost = function(path, data, callback) {
-    var opts = getRequestOptions(path, data);
-    opts['url'] = TINDER_IMAGE_HOST + path;
-    opts['formData'] = data;
-    delete opts['json'];
-    opts.method = 'POST';
-    request(opts, callback);
+    var api = getApi();
+    // Not sure how do this one yet
+    // api.post(TINDER_IMAGE_HOST + path, {body: data}, callback);
   };
 
   /**
@@ -93,9 +91,8 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
   var tinderPut = function(path, data, callback) {
-    var opts = getRequestOptions(path, data);
-    opts.method = 'PUT';
-    request(opts, callback);
+    var api = getApi();
+    api.put(path, {body: JSON.stringify(data)}, callback);
   };
 
   /**
@@ -105,9 +102,8 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
   var tinderDelete = function(path, data, callback) {
-    var opts = getRequestOptions(path, data);
-    opts.method = 'DELETE';
-    request(opts, callback);
+    var api = getApi();
+    api.delete(path, {body: JSON.stringify(data)}, callback);
   };
 
   /**

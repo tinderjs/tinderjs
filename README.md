@@ -106,8 +106,6 @@ client.authorize(
   
 * `callback` is called when the request completes 
 
-* `callback` is called when the request completes
-
 ### .getHistory(callback)
 
   Gets the entire history for the current account (all matches, messages, blocks, etc.)

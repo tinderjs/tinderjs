@@ -6,6 +6,7 @@ if(this.fetch === undefined) {
   require('isomorphic-fetch');
 }
 var Frisbee = require('frisbee').default;
+var FormData = require('form-data');
 
 /**
  * Constructs a new instance of the TinderClient class
@@ -68,18 +69,6 @@ function TinderClient() {
   var tinderPost = function(path, data, callback) {
     var api = getApi();
     api.post(path, {body: JSON.stringify(data)}, callback);
-  };
-
-  /**
-   * Issues a multipart POST request to the Tinder API
-   * @param {String} path the relative path
-   * @param {Object} an object containing the values to post
-   * @param {Function} callback the callback to invoke when the request completes
-   */
-  var tinderMultipartPost = function(path, data, callback) {
-    var api = getApi();
-    // Not sure how do this one yet
-    // api.post(TINDER_IMAGE_HOST + path, {body: data}, callback);
   };
 
   /**
@@ -465,12 +454,13 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.uploadPicture = function(file, callback) {
-    request.post(TINDER_IMAGE_HOST + 'image?client_photo_id=ProfilePhoto' +
-                 new Date().getTime())
-      .set(getRequestHeaders())
-      .field('userId', _this.userId)
-      .attach('file', file)
-      .end(makeTinderCallback(callback))
+    var api = getApi();
+    var form = new FormData();
+    form.append('userId', _this.userId);
+    form.append('file', file);
+
+    api.post(TINDER_IMAGE_HOST + 'image?client_photo_id=ProfilePhoto' +
+                 new Date().getTime(), {body: form})
   };
 
   /**

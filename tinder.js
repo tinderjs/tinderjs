@@ -90,7 +90,7 @@ function TinderClient() {
    */
   var tinderDelete = function(path, data, callback) {
     var api = getApi();
-    api.delete(path, {body: JSON.stringify(data)}, callback);
+    api.del(path, {body: JSON.stringify(data)}, callback);
   };
 
   /**

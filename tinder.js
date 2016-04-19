@@ -28,7 +28,8 @@ function TinderClient() {
         'os_version'      : '23',
         'platform'        : 'android',
         'app-version'     : '854',
-        'Accept-Language' : 'en'
+        'Accept-Language' : 'en',
+        'Accept-Encoding' : 'gzip,deflate'
     };
 
     if (xAuthToken) {
@@ -473,7 +474,7 @@ function TinderClient() {
         transmit: "fb",
         assets: [{
           ydistance_percent: ydistance_percent,
-          id: id,
+          id: pictureId,
           xoffset_percent: xoffset_percent,
           yoffset_percent: yoffset_percent,
           xdistance_percent: xdistance_percent

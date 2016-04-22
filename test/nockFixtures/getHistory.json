@@ -1,0 +1,22 @@
+[
+    {
+        "scope": "https://api.gotinder.com:443",
+        "method": "POST",
+        "path": "/updates",
+        "body": {
+            "last_activity_date": ""
+        },
+        "status": 200,
+        "response": [
+            "1f8b0800000000000003aa56ca4d2c49ce482d56b28a8ed5514acac94fce86b273328b4ba0cc94d49cd492d4947824a19ccc6ca0406e6a7171623a4c77716169620a4c3eb1b8243e31b924b32cb3a4323e25b12455c94ac9c8c0d04cd7c044d7d022c4d0c0cad4d8cad450cfc2d83c4aa916000000ffff0300adfdf8c188000000"
+        ],
+        "headers": {
+            "content-encoding": "gzip",
+            "content-type": "application/json; charset=utf-8",
+            "date": "Fri, 22 Apr 2016 08:36:32 GMT",
+            "vary": "Accept-Encoding",
+            "content-length": "129",
+            "connection": "Close"
+        }
+    }
+]

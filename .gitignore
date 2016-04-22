@@ -35,4 +35,3 @@ jspm_packages
 
 #Automated Tests
 test/config.json
-test/nockFixtures/*

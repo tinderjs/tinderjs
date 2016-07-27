@@ -63,6 +63,7 @@ function TinderClient() {
       .send(data)
       .end(callback)
   };
+  this.post = tinderPost;
 
   /**
    * Issues a PUT request to the Tinder API
@@ -76,6 +77,7 @@ function TinderClient() {
       .send(data)
       .end(callback)
   };
+  this.put = tinderPut;
 
   /**
    * Issues a DELETE request to the Tinder API
@@ -89,6 +91,7 @@ function TinderClient() {
       .send(data)
       .end(callback)
   };
+  this.del = tinderDelete;
 
   /**
    * Helper for transforming the request callback values

@@ -4,12 +4,16 @@
   "description": "Programmatically access the Tinder dating service API",
   "main": "tinder.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/*js --no-timeouts"
   },
   "repository": "git://github.com/tinderjs/tinderjs",
   "author": "tinderjs",
   "license": "MIT",
   "dependencies": {
     "superagent": "^1.8.3"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "nock": "^8.0.0"
   }
 }

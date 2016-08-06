@@ -308,7 +308,26 @@ client.authorize(
   });
 });
 ```
-    
+### Testing ###
+
+To run the test you have to move `config.sample.json` to `config.json` and fill it with your facebook credentials
+
+```
+{
+  "facebook_token": "your_facebook_token",
+  "facebook_id:": "your_facebook_id",
+  "online":Boolean
+}
+```
+Now we we can run the tests:
+
+`npm test`
+
+##### online
+
+In the config while you can choose to run the test `online` or `offline`, if you set `online` to `false` 
+it will hit one time the Tinder API and record the requests then you can do your tests offline.
+
 ### Disclaimer ###
 
 This is not an official Tinder app and as such its usage may violate Tinder's TOS. As with any experimental technology you should use it with caution.

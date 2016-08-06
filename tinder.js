@@ -28,7 +28,8 @@ function TinderClient() {
         'os_version'      : '23',
         'platform'        : 'android',
         'app-version'     : '854',
-        'Accept-Language' : 'en'
+        'Accept-Language' : 'en',
+        'Accept-Encoding' : 'gzip,deflate'
     };
 
     if (xAuthToken) {

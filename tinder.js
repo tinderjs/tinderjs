@@ -2,6 +2,7 @@ var TINDER_HOST = "https://api.gotinder.com/";
 var TINDER_IMAGE_HOST = "https://imageupload.gotinder.com/";
 
 var request = require('superagent');
+var _ = require('underscore');
 
 /**
  * Constructs a new instance of the TinderClient class
@@ -18,6 +19,11 @@ function TinderClient() {
    * The current account's user id
    */
   this.userId = null;
+
+  /**
+   * We will store id - hash key values in this object
+   */
+  this.hashStorage = {};
 
   /**
    * Helper for getting the request headers
@@ -198,11 +204,19 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.getRecommendations = function(limit, callback) {
+
     tinderGet('user/recs', 
       {
         limit: limit
       },
-      makeTinderCallback(callback));
+      makeTinderCallback(function (err, res) {
+        if (err) return callback(err);
+        _(res.results).forEach(function (profile) {
+          _this.hashStorage[profile._id] = profile.content_hash;
+        });
+        callback(err, res);
+      })
+    );
   };
   
   /**
@@ -225,9 +239,12 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.like = function(userId, callback) {
-    tinderGet('like/' + userId,
+    var contentHash = this.hashStorage[userId];
+    if (!contentHash) return callback(new Error('content_hash is missing from hashStorage for ' + userId + ', you need to discover a profile using getRecommendations() to like it!'));
+    tinderGet('like/' + userId + '?content_hash=' + contentHash,
       null,
       makeTinderCallback(callback));
+    delete this.hashStorage[userId];
   };
 
   /**
@@ -247,9 +264,12 @@ function TinderClient() {
    * @param {Function} callback the callback to invoke when the request completes
    */
   this.pass = function(userId, callback) {
-    tinderGet('pass/' + userId,
+    var contentHash = this.hashStorage[userId];
+    if (!contentHash) return callback(new Error('content_hash is missing from hashStorage for' + userId + ', you need to discover a profile using getRecommendations() to pass it!'));
+    tinderGet('pass/' + userId + '?content_hash=' + contentHash,
       null,
       makeTinderCallback(callback));
+    delete this.hashStorage[userId];
   };
 
   /**

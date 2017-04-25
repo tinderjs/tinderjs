@@ -136,9 +136,16 @@ function TinderClient() {
         locale: 'en'
       },
       function(error, res) {
+        // No res object is provided in case of network errors
+        if (res === undefined) {
+          callback(error, res);
+          return;
+        }
+
         // If no body is passed back, return an error
-        if(res.body === undefined){
-          throw new Error('No token passed back from Tinder');
+        if (res.body === undefined){
+          callback(new Error('No token passed back from Tinder'), res);
+          return;
         }
 
         var body = res.body || { 'token': null };
@@ -150,7 +157,7 @@ function TinderClient() {
           callback = makeTinderCallback(callback);
           callback(error, res);
         } else if (body.error){
-          throw new Error("Failed to authenticate: " + body.error);
+          callback(new Error("Failed to authenticate: " + body.error), res);
         } else {
           callback(error, res);
         }
